@@ -13,5 +13,10 @@
 				'password'	=>		\Hash::make('safcrace'),
 				'type'		=>		'admin'
 			));
+
+			\DB::table('user_profiles')->insert(array (
+				'user_id' => 1,
+				'birthdate' => '1973/11/13'
+			));
 		}
 	}
