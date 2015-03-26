@@ -2,7 +2,7 @@
 
 	use Course\User;
 
-	class UsersController extends Controller {
+	class UsersControllers extends Controller {
 
 		public function getOrm()
 		{
