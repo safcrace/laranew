@@ -8,26 +8,13 @@
 				<div class="panel-heading">Usuarios</div>
 
 				<div class="panel-body">
+					<p>
+						<a href="{{ route('admin.users.create') }}" class="btn btn-info" role="button" >Crear Nuevo Usuario</a>
+					</p>
 					<p>Hay {{$users->total() }} Usuarios</p>
-					<table class="table table-striped">
-						<tr>
-							<th>#</th>
-							<th>Nombre</th>
-							<th>Email</th>
-							<th>Acciones</th>
-						</tr>
-						@foreach ($users as $user)
-							<tr>
-								<td>{{ $user->id }}</td>
-								<td>{{ $user->full_name }}</td>
-								<td>{{ $user->email }}</td>
-								<td>
-									<a href="">Editar</a>
-									<a href="">Eliminar</a>
-								</td>
-							</tr>
-						@endforeach	
-					</table>
+					
+					@include('admin.users.partials.table')
+
 					{!! $users->render()  !!}
 				</div>
 			</div>

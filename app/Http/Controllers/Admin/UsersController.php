@@ -3,8 +3,10 @@
 use Course\Http\Requests;
 use Course\Http\Controllers\Controller;
 
+use Course\Http\Requests\CreateUserRequest;
 use Course\User;
 
+//use Illuminate\Support\Facades\Request;
 use Illuminate\Http\Request;
 
 class UsersController extends Controller {
@@ -27,7 +29,7 @@ class UsersController extends Controller {
 	 */
 	public function create()
 	{
-		//
+		return view('admin.users.create');
 	}
 
 	/**
@@ -35,9 +37,10 @@ class UsersController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
-	{
-		//
+	public function store(CreateUserRequest $request)
+	{			
+		$user = User::create($request->all());		
+		return \Redirect::route('admin.users.index');
 	}
 
 	/**
@@ -59,7 +62,8 @@ class UsersController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+		$user = User::findOrFail($id);
+		return view('admin.users.edit', compact('user'));
 	}
 
 	/**
@@ -68,9 +72,12 @@ class UsersController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($id, Request $request)
 	{
-		//
+		$user = User::findOrFail($id);
+		$user->fill($request->all());
+		$user->save();
+		return redirect()->back();
 	}
 
 	/**
