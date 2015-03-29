@@ -8,11 +8,21 @@ use Course\Http\Requests\EditUserRequest;
 
 use Course\User;
 
-//use Illuminate\Support\Facades\Request;
+use Illuminate\Routing\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 class UsersController extends Controller {
+
+	public function __construct()
+	{
+		$this->beforeFilter('@findUser', ['only' => ['show', 'edit', 'update', 'destroy']]);
+	}
+
+	public function findUser(Route $route)
+	{
+		$this->user = User::findOrFail($route->getParameter('users'));
+	}
 
 	/**
 	 * Display a listing of the resource.
@@ -64,9 +74,8 @@ class UsersController extends Controller {
 	 * @return Response
 	 */
 	public function edit($id)
-	{
-		$user = User::findOrFail($id);
-		return view('admin.users.edit', compact('user'));
+	{		
+		return view('admin.users.edit')->with('user', $this->user);
 	}
 
 	/**
@@ -76,10 +85,9 @@ class UsersController extends Controller {
 	 * @return Response
 	 */
 	public function update(EditUserRequest $request, $id)
-	{
-		$user = User::findOrFail($id);
-		$user->fill($request->all());
-		$user->save();
+	{		
+		$this->user->fill($request->all());
+		$this->user->save();
 		return redirect()->back();
 	}
 
@@ -89,11 +97,18 @@ class UsersController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
-	{
-		$user = User::findOrFail($id);
-		$user->delete();
-		Session::flash('message', $user->full_name . ' fue Eliminado');
+	public function destroy($id, Request $request)
+	{	
+		$this->user->delete();
+		$message = $this->user->full_name . ' fue Eliminado';
+		if ($request->ajax())
+		{
+			return response()->json([
+				'id'		=>	$this->user->id,
+				'message' 	=>	$message
+			]);
+		}
+		Session::flash('message', $message);
 		return redirect()->route('admin.users.index');
 	}
 
