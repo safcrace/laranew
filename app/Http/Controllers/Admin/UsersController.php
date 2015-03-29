@@ -4,10 +4,13 @@ use Course\Http\Requests;
 use Course\Http\Controllers\Controller;
 
 use Course\Http\Requests\CreateUserRequest;
+use Course\Http\Requests\EditUserRequest;
+
 use Course\User;
 
 //use Illuminate\Support\Facades\Request;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class UsersController extends Controller {
 
@@ -72,7 +75,7 @@ class UsersController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id, Request $request)
+	public function update(EditUserRequest $request, $id)
 	{
 		$user = User::findOrFail($id);
 		$user->fill($request->all());
@@ -88,7 +91,10 @@ class UsersController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		//
+		$user = User::findOrFail($id);
+		$user->delete();
+		Session::flash('message', $user->full_name . ' fue Eliminado');
+		return redirect()->route('admin.users.index');
 	}
 
 }
