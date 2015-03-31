@@ -9,14 +9,17 @@
 		{
 			$faker = Faker::create();
 
-			for($i = 0; $i < 30; $i ++)
+			for($i = 0; $i < 200; $i ++)
 			{
+				$firstName = $faker->firstName;
+				$lastName = $faker->lastName;
 				$id = \DB::table('users')->insertGetId(array (
-					'first_name'	=>		$faker->firstName,
-					'last_name'		=>		$faker->lastName,
+					'first_name'	=>		$firstName,
+					'last_name'		=>		$lastName,
 					'email'		=>			$faker->unique()->email,
 					'password'	=>		\Hash::make('secret'),
-					'type'		=>		'admin'
+					'type'		=>		$faker->randomElement(['editor', 'contributor', 'subscriber', 'user'])
+
 				));
 
 				\DB::table('user_profiles')->insert(array (

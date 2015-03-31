@@ -29,9 +29,9 @@ class UsersController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
-	{
-		$users = User::Paginate();
+	public function index(Request $request)
+	{		
+		$users = User::name($request->get('name'))->type($request->get('type'))->orderBy('id', 'DESC')->Paginate();
 		return view('admin.users.index', compact('users'));
 	}
 

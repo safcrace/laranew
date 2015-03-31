@@ -12,6 +12,7 @@
 				'email'		=>		'safcrace@gmail.com',
 				'password'	=>		\Hash::make('safcrace'),
 				'type'		=>		'admin'
+				
 			));
 
 			\DB::table('user_profiles')->insert(array (

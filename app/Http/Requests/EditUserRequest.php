@@ -34,7 +34,7 @@ class EditUserRequest extends Request {
 			'last_name' => 'required',
 			'email' => 'required|unique:users,email,' . $this->route->getParameter('users'),
 			'password' => '',
-			'type' => 'required|in:user,admin'
+			'type' => 'required|in:user,admin,editor,contributor,subscriber'
 		];
 	}
 

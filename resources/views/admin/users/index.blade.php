@@ -9,7 +9,16 @@
 				@if (Session::has('message')) 
 					<p class="alert alert-success">{{ Session::get('message') }}</p>
 				@endif
+
 				<div class="panel-body">
+					{!! Form::open(['route' => 'admin.users.index', 'method' => 'GET', 'class' => 'navbar-form navbar-left pull-right', 'role' => 'search']) !!}
+					
+						<div class="form-group">
+							{!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Nombre de Usuario']) !!}
+							{!! Form::select('type', config('options.types'), null, ['class' => 'form-control']) !!}
+						</div>
+						<button type="submit" class="btn btn-success">Submit</button>
+					{!! Form::close() !!}
 					<p>
 						<a href="{{ route('admin.users.create') }}" class="btn btn-info" role="button" >Crear Nuevo Usuario</a>
 					</p>
